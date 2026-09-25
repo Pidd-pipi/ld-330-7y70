@@ -23,6 +23,10 @@ func Fail(c *gin.Context, err error) {
 	switch {
 	case errors.Is(err, repository.ErrNotFound):
 		status, code = http.StatusNotFound, constants.CodeNotFound
+	case errors.Is(err, repository.ErrPatientAlreadyMerged):
+		status, code = http.StatusConflict, constants.CodeConflict
+	case errors.Is(err, repository.ErrMergeIncomplete):
+		status, code = http.StatusUnprocessableEntity, constants.CodeBadRequest
 	case msg == "invalid credentials":
 		status, code = http.StatusUnauthorized, constants.CodeUnauthorized
 	case msg == "forbidden":

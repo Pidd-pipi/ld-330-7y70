@@ -13,6 +13,29 @@ type PatientInput struct {
 	Allergies      string `json:"allergies"`
 	MedicalHistory string `json:"medical_history"`
 }
+type PatientMergeRequest struct {
+	KeepPatientID   uint   `json:"keep_patient_id" validate:"required"`
+	MergedPatientID uint   `json:"merged_patient_id" validate:"required"`
+	Reason          string `json:"reason" validate:"required,min=2,max=1000"`
+}
+type PatientMergePreview struct {
+	Keep             PatientMergeProfile `json:"keep"`
+	Merged           PatientMergeProfile `json:"merged"`
+	TotalRecordCount int64               `json:"total_record_count"`
+}
+type PatientMergeProfile struct {
+	ID                uint   `json:"id"`
+	RecordNo          string `json:"record_no"`
+	Name              string `json:"name"`
+	Gender            string `json:"gender"`
+	Age               int    `json:"age"`
+	IDCard            string `json:"id_card"`
+	Phone             string `json:"phone"`
+	RecordCount       int64  `json:"record_count"`
+	PrescriptionCount int64  `json:"prescription_count"`
+	IsMerged          bool   `json:"is_merged"`
+	MergedIntoID      *uint  `json:"merged_into_id,omitempty"`
+}
 type RecordInput struct {
 	PatientID      uint   `json:"patient_id" validate:"required"`
 	DepartmentID   uint   `json:"department_id" validate:"required"`

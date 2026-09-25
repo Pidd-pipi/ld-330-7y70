@@ -67,7 +67,7 @@ func main() {
 	}
 }
 func migrateAndSeed(db *gorm.DB) error {
-	if e := db.AutoMigrate(&model.Department{}, &model.User{}, &model.Patient{}, &model.MedicalRecord{}, &model.RecordChangeRequest{}, &model.MedicalOrder{}, &model.Prescription{}, &model.PrescriptionItem{}, &model.Drug{}, &model.DiagnosisCode{}, &model.RecordTemplate{}, &model.AuditLog{}); e != nil {
+	if e := db.AutoMigrate(&model.Department{}, &model.User{}, &model.Patient{}, &model.PatientMergeLog{}, &model.MedicalRecord{}, &model.RecordChangeRequest{}, &model.MedicalOrder{}, &model.Prescription{}, &model.PrescriptionItem{}, &model.Drug{}, &model.DiagnosisCode{}, &model.RecordTemplate{}, &model.AuditLog{}); e != nil {
 		return e
 	}
 	var count int64

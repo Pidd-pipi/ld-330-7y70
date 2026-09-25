@@ -1,7 +1,10 @@
 export interface ApiResult<T>{code:number;message:string;data:T}
 export interface User{id:number;username:string;name:string;role:'admin'|'doctor'|'nurse';department_id?:number;active:boolean}
 export interface Department{id:number;code:string;name:string;description:string}
-export interface Patient{id:number;record_no:string;name:string;gender:string;age:number;id_card:string;phone:string;allergies:string;medical_history:string;created_at:string}
+export interface Patient{id:number;record_no:string;name:string;gender:string;age:number;id_card:string;phone:string;allergies:string;medical_history:string;is_merged:boolean;merged_into_id?:number;merged_at?:string;record_count?:number;created_at:string}
+export interface PatientMergeProfile{id:number;record_no:string;name:string;gender:string;age:number;id_card:string;phone:string;record_count:number;prescription_count:number;is_merged:boolean;merged_into_id?:number}
+export interface PatientMergePreview{keep:PatientMergeProfile;merged:PatientMergeProfile;total_record_count:number}
+export interface PatientMergeLog{id:number;keep_patient_id:number;keep_record_no:string;keep_patient_name:string;merged_patient_id:number;merged_record_no:string;merged_patient_name:string;moved_record_count:number;moved_prescription_count:number;reason:string;operator_id:number;operator_name:string;merged_at:string}
 export interface MedicalRecord{id:number;patient_id:number;patient?:Patient;doctor?:User;department?:Department;department_id:number;record_type:string;chief_complaint:string;present_illness:string;past_history:string;physical_exam:string;auxiliary_exam:string;diagnosis:string;treatment_plan:string;rich_content:string;status:string;created_at:string}
 export interface Prescription{id:number;medical_record_id:number;patient_id:number;status:string;items:PrescriptionItem[];created_at:string}
 export interface PrescriptionItem{drug_name:string;specification:string;dosage:string;frequency:string;duration:string}

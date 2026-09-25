@@ -9,8 +9,14 @@ paths:
   /api/v1/auth/login:
     post: {summary: 登录获取 JWT, responses: {'200': {description: success}}}
   /api/v1/patients:
-    get: {summary: 检索患者}
+    get: {summary: 检索患者（不返回已合并档案）}
     post: {summary: 创建患者}
+  /api/v1/patients/merge-preview:
+    post: {summary: 管理员预览重复档案合并及各自病历、处方数量}
+  /api/v1/patients/merge:
+    post: {summary: 管理员原子合并重复患者档案}
+  /api/v1/patient-merge-logs:
+    get: {summary: 查询患者档案合并留痕}
   /api/v1/records:
     get: {summary: 多维病历检索}
     post: {summary: 创建结构化病历}
