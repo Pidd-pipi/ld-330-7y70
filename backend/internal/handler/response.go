@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/blueship581/gbemr/internal/constants"
 	"github.com/blueship581/gbemr/internal/repository"
+	"github.com/blueship581/gbemr/internal/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -23,6 +24,8 @@ func Fail(c *gin.Context, err error) {
 	switch {
 	case errors.Is(err, repository.ErrNotFound):
 		status, code = http.StatusNotFound, constants.CodeNotFound
+	case errors.Is(err, repository.ErrConflict), errors.Is(err, service.ErrPatientAlreadyMerged):
+		status, code = http.StatusConflict, constants.CodeConflict
 	case msg == "invalid credentials":
 		status, code = http.StatusUnauthorized, constants.CodeUnauthorized
 	case msg == "forbidden":

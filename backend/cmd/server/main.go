@@ -35,6 +35,7 @@ func main() {
 		panic(fmt.Errorf("migrate database: %w", e))
 	}
 	patientRepo := repository.NewPatientRepository(db)
+	patientMergeRepo := repository.NewPatientMergeRepository(db)
 	userRepo := repository.NewUserRepository(db)
 	recordRepo := repository.NewRecordRepository(db)
 	orderRepo := repository.NewOrderRepository(db)
@@ -42,7 +43,7 @@ func main() {
 	departmentRepo := repository.NewDepartmentRepository(db)
 	catalogRepo := repository.NewCatalogRepository(db)
 	authSvc := service.NewAuthService(userRepo, cfg.JWTSecret, log)
-	patientSvc := service.NewPatientService(patientRepo, log)
+	patientSvc := service.NewPatientService(patientRepo, patientMergeRepo, log)
 	recordSvc := service.NewRecordService(recordRepo, patientRepo, departmentRepo, log)
 	orderSvc := service.NewOrderService(orderRepo, recordRepo, log)
 	presSvc := service.NewPrescriptionService(presRepo, recordRepo, log)
@@ -67,7 +68,7 @@ func main() {
 	}
 }
 func migrateAndSeed(db *gorm.DB) error {
-	if e := db.AutoMigrate(&model.Department{}, &model.User{}, &model.Patient{}, &model.MedicalRecord{}, &model.RecordChangeRequest{}, &model.MedicalOrder{}, &model.Prescription{}, &model.PrescriptionItem{}, &model.Drug{}, &model.DiagnosisCode{}, &model.RecordTemplate{}, &model.AuditLog{}); e != nil {
+	if e := db.AutoMigrate(&model.Department{}, &model.User{}, &model.Patient{}, &model.PatientMergeRecord{}, &model.MedicalRecord{}, &model.RecordChangeRequest{}, &model.MedicalOrder{}, &model.Prescription{}, &model.PrescriptionItem{}, &model.Drug{}, &model.DiagnosisCode{}, &model.RecordTemplate{}, &model.AuditLog{}); e != nil {
 		return e
 	}
 	var count int64

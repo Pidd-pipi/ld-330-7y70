@@ -34,7 +34,7 @@ docker compose down
 
 ## 主要功能
 
-- **患者档案**：唯一档案编号；完整的基础信息、过敏史和既往病史；可按姓名、身份证号、手机号检索。
+- **患者档案**：唯一档案编号；完整的基础信息、过敏史和既往病史；可按姓名、身份证号、手机号检索；管理员可合并重复档案，病历与处方随事务迁移并留痕。
 - **结构化病历**：门诊/住院类型，包含主诉、现病史、既往史、检查、诊断、方案和富文本补充内容；以时间线展示。
 - **医嘱与处方**：长期/临时医嘱；电子处方包含药品、规格、剂量、频次、疗程，并跟踪待审核、已审核、已执行状态。
 - **审签和留痕**：JWT 登录与管理员/医生/护士 RBAC；病历审核、审签归档与归档后的修改申请；关键创建动作写入审计日志。
@@ -89,7 +89,8 @@ npm run build
 ```
 
 - `POST /auth/login`：登录；`GET /auth/me`：当前用户。
-- `GET|POST|PUT /patients`：患者查询、创建和更新。
+- `GET|POST|PUT /patients`：患者查询（含病历/处方数量，已合并档案自动隐藏）、创建和更新。
+- `POST /admin/patient-merges/preview`、`POST|GET /admin/patient-merges`：重复档案合并预览、确认合并与合并记录查询（管理员）。
 - `GET|POST /records`、`GET /records/:id`：病历检索、创建、详情。
 - `POST /records/:id/review`、`POST /records/:id/change-requests`：审核/归档和归档修改申请。
 - `POST /orders`、`GET /records/:id/orders`、`PUT /orders/:id/status`：医嘱。

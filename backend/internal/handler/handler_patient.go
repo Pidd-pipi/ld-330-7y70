@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/blueship581/gbemr/internal/dto"
 	"github.com/blueship581/gbemr/internal/service"
 	"github.com/gin-gonic/gin"
@@ -61,6 +63,42 @@ func (h *PatientHandler) Update(c *gin.Context) {
 		return
 	}
 	v, e := h.s.Update(id, in)
+	if e != nil {
+		Fail(c, e)
+		return
+	}
+	OK(c, v)
+}
+func (h *PatientHandler) MergePreview(c *gin.Context) {
+	var in dto.PatientMergePreview
+	if !bindJSON(c, &in) {
+		return
+	}
+	v, e := h.s.MergePreview(in)
+	if e != nil {
+		Fail(c, e)
+		return
+	}
+	OK(c, v)
+}
+func (h *PatientHandler) Merge(c *gin.Context) {
+	var in dto.PatientMergeRequest
+	if !bindJSON(c, &in) {
+		return
+	}
+	uid, username, _ := currentUser(c)
+	v, e := h.s.Merge(in, uid, username)
+	if e != nil {
+		Fail(c, e)
+		return
+	}
+	h.catalog.Audit(uid, username, "merge", "patient",
+		"retained_record_no="+v.RetainedRecordNo+", merged_record_no="+v.MergedRecordNo+", records="+
+			fmt.Sprintf("%d", v.MedicalRecordCount)+", prescriptions="+fmt.Sprintf("%d", v.PrescriptionCount)+", reason="+v.Reason)
+	OK(c, v)
+}
+func (h *PatientHandler) MergeHistory(c *gin.Context) {
+	v, e := h.s.MergeHistory()
 	if e != nil {
 		Fail(c, e)
 		return
