@@ -1,0 +1,3 @@
+import axios from 'axios'; import type { ApiResult } from '../types';
+const client=axios.create({baseURL:'/api/v1',timeout:10000});client.interceptors.request.use(c=>{const t=localStorage.getItem('emr_token');if(t)c.headers.Authorization=`Bearer ${t}`;return c});client.interceptors.response.use(r=>r.data,(e)=>Promise.reject(new Error(e.response?.data?.message||e.message)));
+export const api={get:<T>(url:string,params?:object)=>client.get<unknown,ApiResult<T>>(url,{params}),post:<T>(url:string,data?:object)=>client.post<unknown,ApiResult<T>>(url,data),put:<T>(url:string,data?:object)=>client.put<unknown,ApiResult<T>>(url,data)};

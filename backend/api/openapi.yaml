@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  title: GB EMR API
+  version: 1.0.0
+  description: 电子病历管理系统核心接口。
+paths:
+  /healthz:
+    get: {summary: 健康检查, responses: {'200': {description: healthy}}}
+  /api/v1/auth/login:
+    post: {summary: 登录获取 JWT, responses: {'200': {description: success}}}
+  /api/v1/patients:
+    get: {summary: 检索患者}
+    post: {summary: 创建患者}
+  /api/v1/records:
+    get: {summary: 多维病历检索}
+    post: {summary: 创建结构化病历}
+  /api/v1/prescriptions:
+    post: {summary: 开具电子处方}

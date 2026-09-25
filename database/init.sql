@@ -1,0 +1,3 @@
+-- GB EMR PostgreSQL 初始化说明。
+-- 表结构由后端启动时的 GORM AutoMigrate 创建；系统会自动写入内科、管理员、医生、护士和病历模板。
+-- 演示账号：admin/admin123、doctor/doctor123、nurse/nurse123。
